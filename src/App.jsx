@@ -32,11 +32,17 @@ async function fetchBusArrival(id) {
 }
 
 export default function App() {
-  const [busStopId, setBusStopId] = useState('');
+  const [busStopId, setBusStopId] = useState(undefined);
   const [busArrivalData, setBusArrivalData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const options = [ 
+    "18141",
+    "18131",
+  ];
+
   useEffect(() => {
+    console.log('Rendered')
     if (busStopId) {
       setLoading(true);
       fetchBusArrival(busStopId) //async function
@@ -53,12 +59,16 @@ export default function App() {
   return (
     <div>
       <h1>Bus Arrival App</h1>
-      <input
-        type="text"
-        value={busStopId}
-        onChange={handleInputChange}
-        placeholder="Enter Bus Stop ID"
-      />
+      <select onChange={handleInputChange}>
+        <option>Select Bus Stop ID</option>
+        {options.map((option,index) => {
+          return (
+            <option key={index}>
+              {option}
+            </option>
+          );
+        })}
+     </select>
       {loading && <p>Loading...</p>}
       {busArrivalData && busArrivalData.services && (
         <>
